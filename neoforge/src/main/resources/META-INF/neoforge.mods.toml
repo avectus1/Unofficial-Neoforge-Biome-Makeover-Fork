@@ -1,16 +1,18 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-license = "Custom"
+license = "MIT"
 
 [[mods]]
 modId = "biomemakeover"
 version = "${version}"
-displayName = "Biome Makeover"
-authors = "LASERKNIGHTS"
+displayName = "Biome Makeover Refoxed"
+authors = "LASERKNIGHTS (Lemonszz), eirmax, avectus1"
 description = '''
 Biome Makeover is a mod designed to update vanilla's biomes.
+
+Unofficial NeoForge 1.21.1 port, based on eirmax's Biome Makeover Continuation. Not affiliated with LASER KNIGHTS.
 '''
-logoFile = "bm-logo.png"
+logoFile = "refoxed-logo.png"
 
 [[dependencies.biomemakeover]]
 modId = "neoforge"
@@ -35,3 +37,6 @@ config = "biomemakeover-common.mixins.json"
 
 [[mixins]]
 config = "biomemakeover-neoforge.mixins.json"
+
+[[accessTransformers]]
+file = "META-INF/accesstransformer.cfg"

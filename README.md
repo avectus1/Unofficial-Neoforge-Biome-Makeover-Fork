@@ -1,24 +1,43 @@
-# Biome Makeover
-[Official Documentation](https://biomemakeover.laserknights.com/)  
-#Discord
+Biome Makeover Refoxed
 
-[Installation Guide](https://biomemakeover.laserknights.com/notes/installation/)  
+This is an unofficial NeoForge 1.21.1 port of Biome Makeover. It's a fork of eirmax's Biome Makeover Continuation with a bunch of fixes I needed for my modpack.
 
-## Downloads  
-// Soon
+It is not affiliated with LASER KNIGHTS, please don't bother them with bugs from this port. Open an issue here instead.
 
-## What is this?
+Credits
 
-This is a port of Biome-MakeOver to new versions of Fabric and NeoForge.
-Biome-MakeOver is archived and will no longer be developed. This is the same continuation (I hope) of its development. All actions are legal in accordance with the MIT license
+- Original mod by Lemonszz (LASER KNIGHTS): https://github.com/Lemonszz/Biome-Makeover
+- Continuation by eirmax, which this is based on: https://github.com/eirmax/Biome-Makeover-Continuation
+- Taniwha library port by eirmax: https://github.com/eirmax/taniwha-remaked
 
-### Code
-We do accept contributions for bug fixes, but will likely reject any feature contribution.  
-If you wish to contribute, it's best to contact us on Discord first so you don't waste your time.
+What I changed
 
-### Translations
-We welcome and appreciate all translations. If you would like to contribute translations but do not know Git, you can send your translations to us through Discord.
+- Added a NeoForge access transformer. The Fabric access widener isn't applied on NeoForge, which caused crashes (for example during the Adjudicator fight)
+- Projectile Resistance no longer crashes when you take damage
+- Mansions no longer search the live world while generating, which could freeze the server
+- Structure pieces don't place blocks outside the chunk being generated anymore
+- Mansion layout and Moth Blossom use the world's random instead of a shared one
+- Curse of Enfeeblement takes away a heart per level instead of setting your max health to zero
+- Fixed arrow speed and multishot spread with the Inaccuracy curse
+- Fixed some checks that compared registry entries the wrong way, so Projectile Resistance, Ectoplasm composting, Paydirt and the Black Thistle work again
+- Fixed curse attributes being tracked more than once
+- Helmit Crab shells render armor layers and dye colors properly
+- Fixed the Adjudicator's invulnerability overlay texture
+- Tumbleweeds render with transparency and have no collision
+- Updated 10 advancements and 6 loot tables to the 1.21 format, they weren't loading before
 
+Requirements
 
-You may be interested in [Taniwha-remaked](https://github.com/eirmax/taniwha-remaked), the fully open-source library that powers Biome Makeover. The majority on "engine" code is in this library. 
-Yes, this is also a port of the original library from Lemonzzz
+- Minecraft 1.21.1
+- NeoForge 21.1 or newer
+- Architectury API 13.0.11 or newer
+
+Taniwha is included in the jar. Don't install this together with the original Biome Makeover.
+
+Building
+
+Run ./gradlew :neoforge:build and the jar ends up in neoforge/build/libs. You need the Taniwha jar from eirmax's GitHub packages to build.
+
+License
+
+MIT, same as the original. Copyright LASER KNIGHTS, see LICENCE.
