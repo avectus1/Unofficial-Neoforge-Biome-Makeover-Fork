@@ -13,8 +13,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.armortrim.TrimMaterials;
+import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import party.lemons.biomemakeover.entity.HelmitCrabEntity;
 import party.lemons.biomemakeover.entity.render.HatModels;
@@ -22,6 +24,7 @@ import party.lemons.biomemakeover.entity.render.HelmitCrabRender;
 import party.lemons.biomemakeover.item.HatItem;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -62,8 +65,20 @@ public class HelmitCrabRenderHelmitCrabShellRenderLayerImpl
 
 		ArmorItem armorItem = (ArmorItem) stack.getItem();
 
-		// Render armor model for NeoForge compatibility
-		renderModel(matrices, vertexConsumers, light, armorItem, model, false, 1.0F, 1.0F, 1.0F, getArmorResource(entity, stack, EquipmentSlot.HEAD, null));
+		// render every layer of the armor material (so leather overlay + dye color work) the same way vanilla armor does
+		IClientItemExtensions extensions = IClientItemExtensions.of(stack);
+		int fallbackColor = extensions.getDefaultDyeColor(stack);
+		List<ArmorMaterial.Layer> layers = armorItem.getMaterial().value().layers();
+		for(int layerIdx = 0; layerIdx < layers.size(); layerIdx++)
+		{
+			ArmorMaterial.Layer layer = layers.get(layerIdx);
+			int color = extensions.getArmorLayerTintColor(stack, entity, layer, layerIdx, fallbackColor);
+			if(color != 0)
+			{
+				ResourceLocation texture = ClientHooks.getArmorTexture(entity, stack, layer, false, EquipmentSlot.HEAD);
+				model.renderToBuffer(matrices, vertexConsumers.getBuffer(RenderType.armorCutoutNoCull(texture)), light, OverlayTexture.NO_OVERLAY, color);
+			}
+		}
 
 		TrimMaterials.getFromIngredient(entity.level().registryAccess(), stack).ifPresent(arg3x -> HelmitCrabRender.renderTrim(armorItem.getMaterial(), matrices, vertexConsumers, light, arg3x, model, false));
 		if (stack.hasFoil()) {

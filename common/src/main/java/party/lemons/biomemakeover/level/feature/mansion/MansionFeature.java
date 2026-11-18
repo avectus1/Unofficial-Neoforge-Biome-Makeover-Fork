@@ -41,7 +41,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlac
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.phys.AABB;
 import party.lemons.biomemakeover.block.AbstractTapestryBlock;
 import party.lemons.biomemakeover.block.AbstractTapestryWallBlock;
 import party.lemons.biomemakeover.block.IvyBlock;
@@ -140,8 +139,6 @@ public class MansionFeature extends Structure
 
     public static class Piece extends TemplateStructurePiece implements DirectionalDataHandler
     {
-        private static final int ADJUDICATOR_DUPLICATE_CHECK_RADIUS = 16;
-
         private final boolean ground;
         private final boolean isWall;
         private final MansionDetails details;
@@ -207,11 +204,8 @@ public class MansionFeature extends Structure
 
         private void spawnBoss(ServerLevelAccessor level, BlockPos pos)
         {
-            if(!level.getLevel().getEntitiesOfClass(AdjudicatorEntity.class, new AABB(pos).inflate(ADJUDICATOR_DUPLICATE_CHECK_RADIUS)).isEmpty()) {
-                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                return;
-            }
-
+            // don't look up entities in the live world here, this runs during worldgen and can hang the server.
+            // the adjudicator checks for duplicates itself once it's actually in the world
             AdjudicatorEntity boss = BMEntities.ADJUDICATOR.get().create(level.getLevel());
             boss.setPersistenceRequired();
             boss.moveTo(pos, 0.0F, 0.0F);
@@ -225,7 +219,8 @@ public class MansionFeature extends Structure
             super.postProcess(worldGenLevel, structureManager, chunkGenerator, randomSource, boundingBox, chunkPos, blockPos);
 
             for(StructureTemplate.StructureBlockInfo info : this.template.filterBlocks(this.templatePosition, this.placeSettings, Blocks.STRUCTURE_BLOCK)) {
-                if(info.nbt() != null) {
+                // vanilla already handles DATA blocks in super.postProcess, so skip those or the boss spawns twice
+                if(info.nbt() != null && boundingBox.isInside(info.pos()) && !"DATA".equals(info.nbt().getString("mode"))) {
                     handleDataMarker(info.nbt().getString("metadata"), info.pos(), worldGenLevel, randomSource, boundingBox);
                 }
             }

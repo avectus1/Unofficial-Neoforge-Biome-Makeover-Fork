@@ -45,7 +45,7 @@ public abstract class InputContainerMixin_EctoCompost extends SimpleContainer {
     void setChanged(CallbackInfo cbi)
     {
         ItemStack stack = getItem(0);
-        if(!stack.isEmpty() && stack.getItem() == BMItems.ECTOPLASM)
+        if(!stack.isEmpty() && stack.getItem() == BMItems.ECTOPLASM.get())
         {
             this.changed = true;
             level.levelEvent(1500, this.pos, 1);

@@ -73,6 +73,9 @@ public abstract class LivingEntityMixin extends Entity
                 {
                     // Fixed: Use ItemEnchantments and proper iteration
                     ItemEnchantments enchants = EnchantmentHelper.getEnchantmentsForCrafting(stack);
+                    // only track each stack once, even if it has more than one of these curses
+                    boolean alreadyTracked = hasAttributeStack(stack);
+                    boolean addedAny = false;
                     for(Object2IntMap.Entry<Holder<Enchantment>> entry : enchants.entrySet())
                     {
                         Holder<Enchantment> enchantmentHolder = entry.getKey();
@@ -86,13 +89,15 @@ public abstract class LivingEntityMixin extends Entity
                             if(tickable != null)
                             {
                                 tickable.onTick((LivingEntity) (Object) this, stack, lvl);
-                                if(!hasAttributeStack(stack) && tickable.addAttributes((LivingEntity) (Object) this, stack, slot, lvl))
+                                if(!alreadyTracked && tickable.addAttributes((LivingEntity) (Object) this, stack, slot, lvl))
                                 {
-                                    attributeStacks.add(new Pair<>(slot, stack));
+                                    addedAny = true;
                                 }
                             }
                         }
                     }
+                    if(addedAny)
+                        attributeStacks.add(new Pair<>(slot, stack));
                 }
             }
         }

@@ -85,7 +85,7 @@ public class MothBlossomBlock extends IvyShapedBlock{
 
     private boolean attemptSpread(Level level, BlockPos pos, RandomSource random)
     {
-        for(Direction direction : MathUtils.randomOrderedHorizontals())
+        for(Direction direction : MathUtils.randomOrderedHorizontals(random))
         {
             BlockPos offsetPos = pos.relative(direction);
             BlockState placePosState = level.getBlockState(offsetPos);

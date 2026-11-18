@@ -46,7 +46,8 @@ public class TemplateStructurePieceMixin_DirectionalData
             List<StructureTemplate.StructureBlockInfo> list = this.template.filterBlocks(this.templatePosition, this.placeSettings, BMBlocks.DIRECTIONAL_DATA.get());
             for(StructureTemplate.StructureBlockInfo info : list)
             {
-                if(info.nbt() != null)
+                // only touch blocks inside the chunk being generated right now
+                if(info.nbt() != null && boundingBox.isInside(info.pos()))
                 {
                     String meta = info.nbt().getString("metadata");
                     Direction dir = info.state().getValue(DirectionalBlock.FACING);

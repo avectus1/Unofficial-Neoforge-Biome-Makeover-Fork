@@ -20,6 +20,6 @@ public class EnfeeblementCurseEnchantment extends TickableAttributeEnchantment
     @Override
     public void initAttributes()
     {
-        addAttributeModifier(Attributes.MAX_HEALTH, ResourceLocation.parse(UUID.randomUUID().toString()), -2, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+        addAttributeModifier(Attributes.MAX_HEALTH, ResourceLocation.parse(UUID.randomUUID().toString()), -2, AttributeModifier.Operation.ADD_VALUE);
     }
 }

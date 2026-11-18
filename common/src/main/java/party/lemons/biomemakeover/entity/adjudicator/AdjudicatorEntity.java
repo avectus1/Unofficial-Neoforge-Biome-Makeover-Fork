@@ -133,6 +133,11 @@ public class AdjudicatorEntity extends Monster implements PowerableMob, Adjudica
             roomBounds = new AABB(homePos.below(4)).inflate(13,0, 13).expandTowards(0, 13, 0);    //Get the room bounds.
             firstTick = false;
 
+            // check for a second adjudicator before we eat the arena markers, otherwise the real one loses them
+            checkedArenaDuplicate = true;
+            if(discardArenaDuplicate())
+                return;
+
 			/*
 				Find valid arena locations, these are placed in the structure then processed here.
 				These are the locations we can spawn things at or teleport to.

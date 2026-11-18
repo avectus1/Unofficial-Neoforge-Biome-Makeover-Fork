@@ -24,7 +24,7 @@ public final class EntityUtil
 
 
                 e.forEachModifier(slot, (attributeHolder, modifier) -> {
-                    if(attributeHolder.equals(BMEntities.ATT_PROJECTILE_RESISTANCE))
+                    if(attributeHolder.value() == BMEntities.ATT_PROJECTILE_RESISTANCE.get())
                     {
                         resistance.add((float) modifier.amount());
                     }
@@ -44,7 +44,7 @@ public final class EntityUtil
             if(!st.isEmpty())
             {
                 st.forEachModifier(slot, (attributeHolder, modifier) -> {
-                    if(attributeHolder.equals(BMEntities.ATT_PROJECTILE_RESISTANCE))
+                    if(attributeHolder.value() == BMEntities.ATT_PROJECTILE_RESISTANCE.get())
                     {
                         res[0] += modifier.amount();
                     }

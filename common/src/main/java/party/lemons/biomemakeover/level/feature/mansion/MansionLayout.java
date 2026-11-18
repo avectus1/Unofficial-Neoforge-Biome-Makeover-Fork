@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.Util;
 import net.minecraft.util.RandomSource;
 import party.lemons.biomemakeover.level.feature.mansion.processor.CorridorReplaceProcessor;
 import party.lemons.biomemakeover.level.feature.mansion.processor.FloorRoomReplaceProcessor;
@@ -150,7 +151,7 @@ public class MansionLayout
             MansionRoom currentRoom = allRooms.get(i);
             if(currentRoom.active && currentRoom.getRoomType() == RoomType.ROOM)
             {
-                for(Direction dir : MathUtils.randomOrderedHorizontals())
+                for(Direction dir : MathUtils.randomOrderedHorizontals(random))
                 {
                     BlockPos offset = currentRoom.getPosition().relative(dir);
                     if(getLayout().contains(offset))
@@ -185,7 +186,7 @@ public class MansionLayout
         MansionRoom entranceConnected = null;
         Direction offsetDirection = null;
         List<MansionRoom> possibleRooms = allRooms.stream().filter(room -> room.getPosition().getY() == 0 && room.getRoomType().hasWalls()).collect(Collectors.toList());
-        Collections.shuffle(possibleRooms);
+        Util.shuffle(possibleRooms, random);
 
         for(MansionRoom room : possibleRooms)
         {
@@ -372,7 +373,7 @@ public class MansionLayout
     {
         BlockPos nextPos = corridors.get(random.nextInt(corridors.size())).getPosition();
         BlockPos checkPos = nextPos;
-        for(Direction dir : MathUtils.randomOrderedHorizontals())
+        for(Direction dir : MathUtils.randomOrderedHorizontals(random))
         {
             checkPos = nextPos.relative(dir);
             if(y == 0 || (layout.contains(checkPos.below()) && layout.get(checkPos.below()).canSupportRoof())) break;

@@ -45,7 +45,7 @@ public class PaydirtFeature extends Feature<NoneFeatureConfiguration>
                     for(Direction dir : Direction.values())
                     {
                         Block st = level.getBlockState(generatePos.relative(dir)).getBlock();
-                        if(st == Blocks.WATER || (st == BMBlocks.PAYDIRT && random.nextBoolean()))
+                        if(st == Blocks.WATER || (st == BMBlocks.PAYDIRT.get() && random.nextBoolean()))
                         {
                             found = true;
                             break;

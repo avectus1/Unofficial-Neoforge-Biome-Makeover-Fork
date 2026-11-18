@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import party.lemons.biomemakeover.util.EntityUtil;
 
 @Mixin(EnchantmentHelper.class)
@@ -22,12 +21,16 @@ public class EnchantmentHelperMixin
         Apply Projectile Resisitence attritube
      */
 
-    @Inject(at = @At(value = "TAIL", target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;runIterationOnInventory(Lnet/minecraft/world/item/enchantment/EnchantmentHelper$EnchantmentVisitor;Ljava/lang/Iterable;)V"), method = "getDamageProtection", locals = LocalCapture.CAPTURE_FAILEXCEPTION)
-    private static void applyProjectileResistance(ServerLevel serverLevel, LivingEntity livingEntity, DamageSource damageSource, CallbackInfoReturnable<Float> cir, MutableFloat mutableFloat)
+    // Capturing the local MutableFloat crashed on 1.21.1, so add our bonus to the return value instead
+    @Inject(at = @At("RETURN"), method = "getDamageProtection", cancellable = true)
+    private static void applyProjectileResistance(ServerLevel serverLevel, LivingEntity livingEntity, DamageSource damageSource, CallbackInfoReturnable<Float> cir)
     {
         if(damageSource.is(DamageTypeTags.IS_PROJECTILE))
         {
-            EntityUtil.applyProjectileResistance(livingEntity.getArmorAndBodyArmorSlots(), mutableFloat);
+            MutableFloat extra = new MutableFloat(0);
+            EntityUtil.applyProjectileResistance(livingEntity.getArmorAndBodyArmorSlots(), extra);
+            if(extra.floatValue() != 0)
+                cir.setReturnValue(cir.getReturnValue() + extra.floatValue());
         }
     }
 }

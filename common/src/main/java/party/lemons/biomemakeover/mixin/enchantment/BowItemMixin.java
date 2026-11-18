@@ -27,9 +27,10 @@ public class BowItemMixin
         int inaccuracy = BMEnchantments.getItemEnchantmentLevel(BMEnchantments.INACCURACY_CURSE, stack);
         if(inaccuracy >= 1)
         {
-            float pitch = livingEntity.getXRot() + RandomUtil.randomDirection(livingEntity2.level().random.nextFloat() * (inaccuracy * 1.3F));
-            float yaw = livingEntity.getYRot() + RandomUtil.randomDirection(livingEntity.level().random.nextFloat() * (inaccuracy * 1.3F));
-            projectile.shootFromRotation(livingEntity, pitch, yaw, 0.0F, f * 3.0F, 1.0F);
+            // f is already the final velocity and g the inaccuracy in 1.21, and h is the multishot angle
+            float pitch = livingEntity.getXRot() + RandomUtil.randomDirection(livingEntity.level().random.nextFloat() * (inaccuracy * 1.3F));
+            float yaw = livingEntity.getYRot() + h + RandomUtil.randomDirection(livingEntity.level().random.nextFloat() * (inaccuracy * 1.3F));
+            projectile.shootFromRotation(livingEntity, pitch, yaw, 0.0F, f, g);
         }
     }
 }

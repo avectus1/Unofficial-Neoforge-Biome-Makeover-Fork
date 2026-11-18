@@ -119,7 +119,7 @@ public class BMBlocks
     public static final DecorationBlockFactory BLIGHTED_STONE_BRICKS_DECORATION = new DecorationBlockFactory(Constants.MOD_ID, "blighted_stone_bricks", BLIGHTED_STONE_BRICKS, properties(2F).instrument(NoteBlockInstrument.BASEDRUM).mapColor(MapColor.STONE).requiresCorrectToolForDrops().sound(SoundType.STONE), BMTab.TAB).all().register(BLOCKS, ITEMS);
     public static final RegistrySupplier<Block> PAYDIRT = registerBlockItem("paydirt", ()->new PaydirtBlock(properties(1.4F).randomTicks().requiresCorrectToolForDrops().sound(SoundType.GRAVEL).mapColor(MapColor.TERRACOTTA_GRAY)));
 
-    public static final RegistrySupplier<Block> TUMBLEWEED = BLOCKS.register(BiomeMakeover.ID("tumbleweed"), ()->new Block(properties(0).mapColor(MapColor.COLOR_YELLOW)));
+    public static final RegistrySupplier<Block> TUMBLEWEED = BLOCKS.register(BiomeMakeover.ID("tumbleweed"), ()->new Block(properties(0).mapColor(MapColor.COLOR_YELLOW).noOcclusion().noCollission()));
 
     public static final RegistrySupplier<Block> SAGUARO_CACTUS = registerBlockItem("saguaro_cactus", ()->new SaguaroCactusBlock(properties(0.4F).mapColor(MapColor.COLOR_GREEN).pushReaction(PushReaction.DESTROY).sound(SoundType.WOOL).randomTicks()).modifiers(RTypeModifier.CUTOUT));
     public static final RegistrySupplier<Block> BARREL_CACTUS = registerBlockItem("barrel_cactus", ()->new BarrelCactusBlock(false, properties(0).mapColor(MapColor.PLANT).pushReaction(PushReaction.DESTROY).randomTicks().sound(SoundType.WOOL).noOcclusion().instabreak().noCollission()).modifiers(RTypeModifier.CUTOUT));

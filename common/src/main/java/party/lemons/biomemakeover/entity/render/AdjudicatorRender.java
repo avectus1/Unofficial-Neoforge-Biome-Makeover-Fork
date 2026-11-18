@@ -121,7 +121,7 @@ public class AdjudicatorRender extends MobRenderer<AdjudicatorEntity, Adjudicato
     }
 
     private class InvulnerableFeatureRenderer extends EnergySwirlLayer<AdjudicatorEntity, AdjudicatorModel<AdjudicatorEntity>> {
-        private final ResourceLocation SKIN = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID,"textures/entity/wither/wither_armor.png");
+        private final ResourceLocation SKIN = ResourceLocation.withDefaultNamespace("textures/entity/wither/wither_armor.png");
 
         public InvulnerableFeatureRenderer(AdjudicatorRender adjudicatorRender) {
             super(adjudicatorRender);
