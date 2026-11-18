@@ -1,23 +1,23 @@
 {
- "type": "minecraft:block",
- "pools": [
-  {
-   "rolls": 1,
-   "entries": [
+  "type": "minecraft:block",
+  "pools": [
     {
-     "type": "minecraft:item",
-     "name": "biomemakeover:moth_blossom"
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "biomemakeover:moth_blossom"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "items": "minecraft:shears"
+          }
+        }
+      ]
     }
-   ],
-   "conditions": [
-    {
-     "condition": "minecraft:match_tool",
-     "predicate": {
-      "item": "minecraft:shears"
-     }
-    }
-   ]
-  }
- ],
- "random_sequence": "biomemakeover:blocks/moth_blossom"
+  ],
+  "random_sequence": "biomemakeover:blocks/moth_blossom"
 }
